@@ -1,19 +1,59 @@
 package org.example;
 
-// Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
-// then press Enter. You can now see whitespace characters in your code.
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+
 public class Main {
     public static void main(String[] args) {
-        // Press Alt+Enter with your caret at the highlighted text to see how
-        // IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        int i = new Random().nextInt(2001);
+        int n = getMostSignificantBit(i);
+        short[] m1 = findMultiples(n, i, Short.MAX_VALUE);
+        short[] m2 = findNonMultiples(n, Short.MIN_VALUE, i);
+        System.out.println("Выпавшее число: " + i);
+        System.out.println("Номер старшего значащего бита: " + n);
+        System.out.println("Кратные числа в диапазоне от " + i + " до " + Short.MAX_VALUE + ": " + Arrays.toString(m1));
+        System.out.println("Некратные числа в диапазоне от " + Short.MIN_VALUE + " до " + i + ": " + Arrays.toString(m2));
+    }
 
-        // Press Shift+F10 or click the green arrow button in the gutter to run the code.
-        for (int i = 1; i <= 5; i++) {
-
-            // Press Shift+F9 to start debugging your code. We have set one breakpoint
-            // for you, but you can always add more by pressing Ctrl+F8.
-            System.out.println("i = " + i);
+    public static int getMostSignificantBit(int num) {
+        if (num == 0) {
+            return 0;
         }
+        int msb = 0;
+        while (num > 0) {
+            num = num >> 1;
+            msb++;
+        }
+        return msb;
+    }
+
+    public static short[] findMultiples(int n, int start, int end) {
+        List<Short> multiplesList = new ArrayList<>();
+        for (int i = start; i <= end; i++) {
+            if (i % Math.pow(2, n) == 0) {
+                multiplesList.add((short) i);
+            }
+        }
+        return listToArray(multiplesList);
+    }
+
+    public static short[] findNonMultiples(int n, int start, int end) {
+        List<Short> nonMultiplesList = new ArrayList<>();
+        for (int i = start; i <= end; i++) {
+            if (i % Math.pow(2, n) != 0) {
+                nonMultiplesList.add((short) i);
+            }
+        }
+        return listToArray(nonMultiplesList);
+    }
+
+    public static short[] listToArray(List<Short> list) {
+        short[] arr = new short[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            arr[i] = list.get(i);
+        }
+        return arr;
     }
 }
